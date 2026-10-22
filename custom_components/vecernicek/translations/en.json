@@ -1,0 +1,27 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Večerníček",
+        "description": "Adds a sensor with the title of today's Večerníček episode from the Czech Television schedule."
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "Already configured."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "vecernicek": {
+        "state_attributes": {
+          "datum": { "name": "Date" },
+          "cas": { "name": "Time" },
+          "serial": { "name": "Series" },
+          "popis": { "name": "Description" },
+          "url": { "name": "Link" },
+          "program": { "name": "Schedule" }
+        }
+      }
+    }
+  }
+}

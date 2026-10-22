@@ -1,0 +1,7 @@
+{
+  "entity": {
+    "sensor": {
+      "vecernicek": { "default": "mdi:weather-night" }
+    }
+  }
+}

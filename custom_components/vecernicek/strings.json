@@ -1,0 +1,27 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Večerníček",
+        "description": "Přidá senzor s názvem epizody Večerníčku z TV programu ČT."
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "Integrace už je nastavená."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "vecernicek": {
+        "state_attributes": {
+          "datum": { "name": "Datum" },
+          "cas": { "name": "Čas" },
+          "serial": { "name": "Seriál" },
+          "popis": { "name": "Popis" },
+          "url": { "name": "Odkaz" },
+          "program": { "name": "Program" }
+        }
+      }
+    }
+  }
+}

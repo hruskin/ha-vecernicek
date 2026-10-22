@@ -1,0 +1,12 @@
+{
+  "domain": "vecernicek",
+  "name": "Večerníček",
+  "codeowners": [],
+  "config_flow": true,
+  "documentation": "https://www.ceskatelevize.cz/tv-program/",
+  "integration_type": "service",
+  "iot_class": "cloud_polling",
+  "requirements": [],
+  "single_config_entry": true,
+  "version": "1.0.0"
+}
