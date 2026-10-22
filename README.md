@@ -6,6 +6,15 @@ epizodu následujícího dne.
 
 ## Instalace
 
+### Přes HACS
+
+1. HACS → ⋮ → Vlastní repozitáře → URL `https://github.com/hruskin/ha-vecernicek`,
+   typ **Integrace**.
+2. Najděte **Večerníček**, stáhněte a restartujte Home Assistant.
+3. Nastavení → Zařízení a služby → Přidat integraci → **Večerníček**.
+
+### Ručně
+
 1. Zkopírujte `custom_components/vecernicek` do `/config/custom_components/`.
 2. Restartujte Home Assistant.
 3. Nastavení → Zařízení a služby → Přidat integraci → **Večerníček**.
