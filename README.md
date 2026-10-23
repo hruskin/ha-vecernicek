@@ -25,8 +25,10 @@ epizodu následujícího dne.
 - **atributy** – `datum`, `cas`, `serial`, `popis`, `url`, `program`
   (seznam epizod na nadcházející dny)
 
-Program se stahuje jednou denně na 7 dní dopředu; v 19:00 se senzor jen
-přepne na další den. Při chybě stahování se pokus opakuje po 30 minutách.
+Program se stahuje jednou denně na 7 dní dopředu; v nastaveném čase se senzor
+jen přepne na další den. Čas přepnutí (výchozí 19:00) se nastavuje při přidání
+integrace a lze ho kdykoliv změnit v Nastavení → Zařízení a služby →
+Večerníček → Konfigurovat. Při chybě stahování se pokus opakuje po 30 minutách.
 Ruční obnovení: akce `homeassistant.update_entity` na `sensor.vecernicek`.
 
 Data se parsují z HTML stránky https://www.ceskatelevize.cz/tv-program/ –

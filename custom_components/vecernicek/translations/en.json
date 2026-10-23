@@ -3,23 +3,54 @@
     "step": {
       "user": {
         "title": "Večerníček",
-        "description": "Adds a sensor with the title of today's Večerníček episode from the Czech Television schedule."
+        "description": "Adds a sensor with the title of today's Večerníček episode from the Czech Television schedule.",
+        "data": {
+          "cas_prepnuti": "Switch to next episode at"
+        },
+        "data_description": {
+          "cas_prepnuti": "From this time on, the sensor shows the next day's episode."
+        }
       }
     },
     "abort": {
       "single_instance_allowed": "Already configured."
     }
   },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Večerníček",
+        "data": {
+          "cas_prepnuti": "Switch to next episode at"
+        },
+        "data_description": {
+          "cas_prepnuti": "From this time on, the sensor shows the next day's episode."
+        }
+      }
+    }
+  },
   "entity": {
     "sensor": {
       "vecernicek": {
         "state_attributes": {
-          "datum": { "name": "Date" },
-          "cas": { "name": "Time" },
-          "serial": { "name": "Series" },
-          "popis": { "name": "Description" },
-          "url": { "name": "Link" },
-          "program": { "name": "Schedule" }
+          "datum": {
+            "name": "Date"
+          },
+          "cas": {
+            "name": "Time"
+          },
+          "serial": {
+            "name": "Series"
+          },
+          "popis": {
+            "name": "Description"
+          },
+          "url": {
+            "name": "Link"
+          },
+          "program": {
+            "name": "Schedule"
+          }
         }
       }
     }

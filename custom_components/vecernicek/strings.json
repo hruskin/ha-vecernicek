@@ -3,23 +3,54 @@
     "step": {
       "user": {
         "title": "Večerníček",
-        "description": "Přidá senzor s názvem epizody Večerníčku z TV programu ČT."
+        "description": "Přidá senzor s názvem epizody Večerníčku z TV programu ČT.",
+        "data": {
+          "cas_prepnuti": "Čas přepnutí na další díl"
+        },
+        "data_description": {
+          "cas_prepnuti": "Od tohoto času senzor ukazuje epizodu následujícího dne."
+        }
       }
     },
     "abort": {
       "single_instance_allowed": "Integrace už je nastavená."
     }
   },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Večerníček",
+        "data": {
+          "cas_prepnuti": "Čas přepnutí na další díl"
+        },
+        "data_description": {
+          "cas_prepnuti": "Od tohoto času senzor ukazuje epizodu následujícího dne."
+        }
+      }
+    }
+  },
   "entity": {
     "sensor": {
       "vecernicek": {
         "state_attributes": {
-          "datum": { "name": "Datum" },
-          "cas": { "name": "Čas" },
-          "serial": { "name": "Seriál" },
-          "popis": { "name": "Popis" },
-          "url": { "name": "Odkaz" },
-          "program": { "name": "Program" }
+          "datum": {
+            "name": "Datum"
+          },
+          "cas": {
+            "name": "Čas"
+          },
+          "serial": {
+            "name": "Seriál"
+          },
+          "popis": {
+            "name": "Popis"
+          },
+          "url": {
+            "name": "Odkaz"
+          },
+          "program": {
+            "name": "Program"
+          }
         }
       }
     }

@@ -6,8 +6,9 @@ DOMAIN = "vecernicek"
 
 # kolik dní dopředu stahovat (ČT zveřejňuje program cca 2 týdny předem)
 DNY = 7
-# od této hodiny se zobrazuje epizoda následujícího dne
-PREPNUTI_HODINA = 19
+# volba: od tohoto času se zobrazuje epizoda následujícího dne
+CONF_CAS_PREPNUTI = "cas_prepnuti"
+VYCHOZI_CAS_PREPNUTI = "19:00:00"
 
 INTERVAL_AKTUALIZACE = timedelta(hours=24)
 INTERVAL_PO_CHYBE = timedelta(minutes=30)

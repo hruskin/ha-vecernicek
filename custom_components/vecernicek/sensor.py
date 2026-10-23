@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import date, timedelta
+from datetime import date, time, timedelta
 from typing import Any
 
 from homeassistant.components.sensor import SensorEntity
@@ -13,7 +13,7 @@ from homeassistant.helpers.event import async_track_time_change
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.util import dt as dt_util
 
-from .const import DOMAIN, PREPNUTI_HODINA
+from .const import CONF_CAS_PREPNUTI, DOMAIN, VYCHOZI_CAS_PREPNUTI
 from .coordinator import VecernicekConfigEntry, VecernicekCoordinator
 
 
@@ -22,13 +22,16 @@ async def async_setup_entry(
     entry: VecernicekConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
-    async_add_entities([VecernicekSensor(entry.runtime_data)])
+    cas_prepnuti = dt_util.parse_time(
+        entry.options.get(CONF_CAS_PREPNUTI, VYCHOZI_CAS_PREPNUTI)
+    ) or dt_util.parse_time(VYCHOZI_CAS_PREPNUTI)
+    async_add_entities([VecernicekSensor(entry.runtime_data, cas_prepnuti)])
 
 
-def _zobrazovany_den() -> date:
-    """Do PREPNUTI_HODINA dnešek, potom zítřek."""
+def _zobrazovany_den(cas_prepnuti: time) -> date:
+    """Do času přepnutí dnešek, potom zítřek."""
     ted = dt_util.now()
-    if ted.hour >= PREPNUTI_HODINA:
+    if ted.time() >= cas_prepnuti:
         return ted.date() + timedelta(days=1)
     return ted.date()
 
@@ -40,8 +43,9 @@ class VecernicekSensor(CoordinatorEntity[VecernicekCoordinator], SensorEntity):
     # celý program a popisy nemá smysl ukládat do historie
     _unrecorded_attributes = frozenset({"program", "popis", "url"})
 
-    def __init__(self, coordinator: VecernicekCoordinator) -> None:
+    def __init__(self, coordinator: VecernicekCoordinator, cas_prepnuti: time) -> None:
         super().__init__(coordinator)
+        self._cas_prepnuti = cas_prepnuti
         entry_id = coordinator.config_entry.entry_id
         self._attr_unique_id = entry_id
         self._attr_device_info = DeviceInfo(
@@ -54,10 +58,14 @@ class VecernicekSensor(CoordinatorEntity[VecernicekCoordinator], SensorEntity):
 
     async def async_added_to_hass(self) -> None:
         await super().async_added_to_hass()
-        # v PREPNUTI_HODINA se jen přepne na další den, nic se nestahuje
+        # v čase přepnutí se jen přepne na další den, nic se nestahuje
         self.async_on_remove(
             async_track_time_change(
-                self.hass, self._prepni, hour=PREPNUTI_HODINA, minute=0, second=0
+                self.hass,
+                self._prepni,
+                hour=self._cas_prepnuti.hour,
+                minute=self._cas_prepnuti.minute,
+                second=self._cas_prepnuti.second,
             )
         )
 
@@ -66,7 +74,7 @@ class VecernicekSensor(CoordinatorEntity[VecernicekCoordinator], SensorEntity):
         self.async_write_ha_state()
 
     def _epizoda(self) -> dict[str, str | None] | None:
-        return (self.coordinator.data or {}).get(_zobrazovany_den().isoformat())
+        return (self.coordinator.data or {}).get(_zobrazovany_den(self._cas_prepnuti).isoformat())
 
     @property
     def native_value(self) -> str | None:
@@ -75,7 +83,7 @@ class VecernicekSensor(CoordinatorEntity[VecernicekCoordinator], SensorEntity):
 
     @property
     def extra_state_attributes(self) -> dict[str, Any]:
-        den = _zobrazovany_den().isoformat()
+        den = _zobrazovany_den(self._cas_prepnuti).isoformat()
         epizoda = self._epizoda() or {}
         return {
             "datum": den,
