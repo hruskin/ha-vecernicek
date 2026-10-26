@@ -21,6 +21,7 @@ from .const import (
     INTERVAL_AKTUALIZACE,
     INTERVAL_PO_CHYBE,
     MAX_VELIKOST_ODPOVEDI,
+    SOUBEZNE_STAHOVANI,
     URL_PROGRAM,
 )
 from .parser import parsuj_program
@@ -45,8 +46,13 @@ class VecernicekCoordinator(DataUpdateCoordinator[Program]):
             update_interval=INTERVAL_AKTUALIZACE,
         )
         self._session = async_get_clientsession(hass)
+        self._semafor = asyncio.Semaphore(SOUBEZNE_STAHOVANI)
 
     async def _stahni_den(self, datum: date) -> dict[str, str | None] | None:
+        async with self._semafor:
+            return await self._stahni_den_bez_omezeni(datum)
+
+    async def _stahni_den_bez_omezeni(self, datum: date) -> dict[str, str | None] | None:
         url = URL_PROGRAM.format(datum.strftime("%d.%m.%Y"))
         async with self._session.get(
             url, timeout=aiohttp.ClientTimeout(total=30)
@@ -72,15 +78,24 @@ class VecernicekCoordinator(DataUpdateCoordinator[Program]):
         program: Program = {
             k: v for k, v in (self.data or {}).items() if k >= dnes.isoformat()
         }
-        chyby = 0
+        chyby: list[str] = []
         for datum, vysledek in zip(dny, vysledky, strict=True):
             if isinstance(vysledek, Exception):
-                _LOGGER.warning("Nepodařilo se stáhnout program %s: %s", datum, vysledek)
-                chyby += 1
+                # např. TimeoutError nemá text, proto i název výjimky
+                popis = type(vysledek).__name__
+                if str(vysledek):
+                    popis += f": {vysledek}"
+                chyby.append(f"{datum.isoformat()} ({popis})")
             elif vysledek:
                 program[datum.isoformat()] = vysledek
 
         self.update_interval = INTERVAL_PO_CHYBE if chyby else INTERVAL_AKTUALIZACE
-        if chyby == len(dny) and not program:
-            raise UpdateFailed("Program ČT se nepodařilo stáhnout")
+        if len(chyby) == len(dny) and not program:
+            raise UpdateFailed(f"Program ČT se nepodařilo stáhnout: {chyby[0]}")
+        if chyby:
+            _LOGGER.warning(
+                "Nepodařilo se stáhnout program na %s; další pokus za %d min",
+                ", ".join(chyby),
+                INTERVAL_PO_CHYBE.total_seconds() // 60,
+            )
         return dict(sorted(program.items()))

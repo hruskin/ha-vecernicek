@@ -11,7 +11,9 @@ CONF_CAS_PREPNUTI = "cas_prepnuti"
 VYCHOZI_CAS_PREPNUTI = "19:00:00"
 
 INTERVAL_AKTUALIZACE = timedelta(hours=24)
-INTERVAL_PO_CHYBE = timedelta(minutes=30)
+INTERVAL_PO_CHYBE = timedelta(minutes=10)
+# kolik stránek programu stahovat současně
+SOUBEZNE_STAHOVANI = 2
 
 URL_PROGRAM = "https://www.ceskatelevize.cz/tv-program/{}/"
 URL_CT = "https://www.ceskatelevize.cz/"
