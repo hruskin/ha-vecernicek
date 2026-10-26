@@ -5,10 +5,12 @@
         "title": "Večerníček",
         "description": "Adds a sensor with the title of today's Večerníček episode from the Czech Television schedule.",
         "data": {
-          "cas_prepnuti": "Switch to next episode at"
+          "cas_prepnuti": "Switch to next episode at",
+          "dny": "Days ahead"
         },
         "data_description": {
-          "cas_prepnuti": "From this time on, the sensor shows the next day's episode."
+          "cas_prepnuti": "From this time on, the sensor shows the next day's episode.",
+          "dny": "How many days (including today) of the schedule to download. Czech Television publishes it about 14 days ahead."
         }
       }
     },
@@ -21,10 +23,12 @@
       "init": {
         "title": "Večerníček",
         "data": {
-          "cas_prepnuti": "Switch to next episode at"
+          "cas_prepnuti": "Switch to next episode at",
+          "dny": "Days ahead"
         },
         "data_description": {
-          "cas_prepnuti": "From this time on, the sensor shows the next day's episode."
+          "cas_prepnuti": "From this time on, the sensor shows the next day's episode.",
+          "dny": "How many days (including today) of the schedule to download. Czech Television publishes it about 14 days ahead."
         }
       }
     }

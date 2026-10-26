@@ -15,7 +15,7 @@ from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, Upda
 from homeassistant.util import dt as dt_util
 
 from .const import (
-    DNY,
+    CONF_DNY,
     DOMAIN,
     HOST_CT,
     INTERVAL_AKTUALIZACE,
@@ -23,6 +23,7 @@ from .const import (
     MAX_VELIKOST_ODPOVEDI,
     SOUBEZNE_STAHOVANI,
     URL_PROGRAM,
+    VYCHOZI_DNY,
 )
 from .parser import parsuj_program
 
@@ -33,7 +34,7 @@ type VecernicekConfigEntry = ConfigEntry[VecernicekCoordinator]
 
 
 class VecernicekCoordinator(DataUpdateCoordinator[Program]):
-    """Jednou denně stáhne program na DNY dní dopředu (datum ISO -> epizoda)."""
+    """Jednou denně stáhne program na nastavený počet dní dopředu (datum ISO -> epizoda)."""
 
     config_entry: VecernicekConfigEntry
 
@@ -46,6 +47,7 @@ class VecernicekCoordinator(DataUpdateCoordinator[Program]):
             update_interval=INTERVAL_AKTUALIZACE,
         )
         self._session = async_get_clientsession(hass)
+        self._dny = int(entry.options.get(CONF_DNY, VYCHOZI_DNY))
         self._semafor = asyncio.Semaphore(SOUBEZNE_STAHOVANI)
 
     async def _stahni_den(self, datum: date) -> dict[str, str | None] | None:
@@ -69,7 +71,7 @@ class VecernicekCoordinator(DataUpdateCoordinator[Program]):
 
     async def _async_update_data(self) -> Program:
         dnes = dt_util.now().date()
-        dny = [dnes + timedelta(days=posun) for posun in range(DNY)]
+        dny = [dnes + timedelta(days=posun) for posun in range(self._dny)]
         vysledky = await asyncio.gather(
             *(self._stahni_den(datum) for datum in dny), return_exceptions=True
         )

@@ -5,10 +5,12 @@
         "title": "Večerníček",
         "description": "Přidá senzor s názvem epizody Večerníčku z TV programu ČT.",
         "data": {
-          "cas_prepnuti": "Čas přepnutí na další díl"
+          "cas_prepnuti": "Čas přepnutí na další díl",
+          "dny": "Počet dní dopředu"
         },
         "data_description": {
-          "cas_prepnuti": "Od tohoto času senzor ukazuje epizodu následujícího dne."
+          "cas_prepnuti": "Od tohoto času senzor ukazuje epizodu následujícího dne.",
+          "dny": "Na kolik dní (včetně dneška) se stahuje program. ČT ho zveřejňuje zhruba 14 dní předem."
         }
       }
     },
@@ -21,10 +23,12 @@
       "init": {
         "title": "Večerníček",
         "data": {
-          "cas_prepnuti": "Čas přepnutí na další díl"
+          "cas_prepnuti": "Čas přepnutí na další díl",
+          "dny": "Počet dní dopředu"
         },
         "data_description": {
-          "cas_prepnuti": "Od tohoto času senzor ukazuje epizodu následujícího dne."
+          "cas_prepnuti": "Od tohoto času senzor ukazuje epizodu následujícího dne.",
+          "dny": "Na kolik dní (včetně dneška) se stahuje program. ČT ho zveřejňuje zhruba 14 dní předem."
         }
       }
     }

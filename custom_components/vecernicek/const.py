@@ -4,8 +4,12 @@ from datetime import timedelta
 
 DOMAIN = "vecernicek"
 
-# kolik dní dopředu stahovat (ČT zveřejňuje program cca 2 týdny předem)
-DNY = 7
+# volba: kolik dní dopředu stahovat (ČT zveřejňuje program cca 2 týdny předem)
+CONF_DNY = "dny"
+VYCHOZI_DNY = 7
+# aspoň dnešek a zítřek, jinak by po přepnutí neměl senzor co ukázat
+MIN_DNY = 2
+MAX_DNY = 14
 # volba: od tohoto času se zobrazuje epizoda následujícího dne
 CONF_CAS_PREPNUTI = "cas_prepnuti"
 VYCHOZI_CAS_PREPNUTI = "19:00:00"
