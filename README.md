@@ -32,7 +32,8 @@ Večerníček → Konfigurovat:
 
 - **Čas přepnutí na další díl** – výchozí 19:00
 - **Počet dní dopředu** – 2 až 14 dní včetně dneška, výchozí 7
- Při chybě stahování se pokus opakuje po 10 minutách.
+
+Při chybě stahování se pokus opakuje po 10 minutách.
 Ruční obnovení: akce `homeassistant.update_entity` na `sensor.vecernicek`.
 
 Data se parsují z HTML stránky https://www.ceskatelevize.cz/tv-program/ –
